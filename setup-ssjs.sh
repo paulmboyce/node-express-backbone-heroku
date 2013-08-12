@@ -22,7 +22,7 @@ heroku plugins:install git://github.com/ddollar/heroku-config.git
 cp .env.dummy .env
 
 # For local: setup postgres (one-time) and then run the local server
-./pgsetup.sh
+#./pgsetup.sh
 
 STRING=$( cat <<EOF
 Great. You've now set up local and remote postgres databases for your
