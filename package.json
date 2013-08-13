@@ -1,17 +1,16 @@
 {
-  "name": "bitstarter-ssjs-orders",
+  "name": "node-express-backbone-heroku",
   "version": "0.0.1",
-  "description": "Simple server-side JS order processing",
-  "main": "web.js",
+  "description": "Full end to end stack.",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "sequelize": "~2.0.0-alpha2",
-    "pg": "~2.3.1",
     "ejs": "~0.8.4",
     "express": "~3.3.4",
     "async": "~0.2.9",
+    "jade": "0.34.1",
     "mongoose": "3.6.16"
   },
   "engines": {
