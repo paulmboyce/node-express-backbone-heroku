@@ -248,5 +248,8 @@ app.post('/resetPassword', function(req, res) {
   res.render('resetPasswordSuccess.jade');
 });
 
-app.listen(8080);
-console.log("SocialNet is listening to port 8080.");
+
+var port = process.env.PORT || 8080;
+app.listen(port, function() {
+  console.log("Social Net Listening on " + port);
+
