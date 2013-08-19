@@ -69,8 +69,19 @@ app.post('/register', function(req, res) {
     return;
   }
 
-  models.Account.register(email, password, firstName, lastName);
-  res.send(200);
+  models.Account.register(email, password, firstName, lastName, function(account){
+      if (account) {
+	  console.log("Register was succcessful. Logging user into session with email: " + account.email);
+	  req.session.loggedIn = true;
+	  req.session.accountId = account._id;
+	  res.send(200);
+      }
+      else {
+	  res.send(401);
+	  return;
+      }
+  });
+
 });
 
 app.get('/account/authenticated', function(req, res) {

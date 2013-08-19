@@ -41,12 +41,6 @@ module.exports = function(config, mongoose, nodemailer) {
 
   var Account = mongoose.model('Account', AccountSchema);
 
-  var registerCallback = function(err) {
-    if (err) {
-      return console.log(err);
-    };
-    return console.log('Account was created');
-  };
 
   var changePassword = function(accountId, newpassword) {
     var shaSum = crypto.createHash('sha256');
@@ -144,22 +138,45 @@ module.exports = function(config, mongoose, nodemailer) {
     return false;
   };
 
-  var register = function(email, password, firstName, lastName) {
+  var registerCallback = function(err, callback) {
+    if (err) {
+      callback(false);
+      return console.log(err);
+    };
+    callback(true);
+    return console.log('Account was created');
+  };
+
+
+  var register = function(email, password, firstName, lastName, callback) {
     var shaSum = crypto.createHash('sha256');
     shaSum.update(password);
 
-    console.log('Registering ' + email);
-    var user = new Account({
-      email: email,
-      name: {
-        first: firstName,
-        last: lastName,
-        full: firstName + ' ' + lastName
-      },
-      password: shaSum.digest('hex')
-    });
-    user.save(registerCallback);
-    console.log('Save command was sent');
+    // Check if account exists:
+      var user = Account.findOne({email: email}, function findAccount(err, doc){
+	  if (doc !== null) {
+	      console.log("REGISTER REJECTED: Email Already Exists: " + doc.email);
+	      callback(null);
+	      return;
+	  }
+	  else {
+    	      console.log('REGISTER: Creating NEW Account for email: ' + email);
+	      var user = new Account({
+		  email: email,
+		  name: {
+		      first: firstName,
+		      last: lastName,
+		      full: firstName + ' ' + lastName
+		  },
+		  password: shaSum.digest('hex')
+	      });
+	      user.save();
+	      console.log('Account was created for: ' + email);
+	      callback(user);
+	      return;
+
+	  }
+     });
   };
 
   return {
