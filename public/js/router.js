@@ -1,8 +1,8 @@
 define(['views/index', 'views/register', 'views/login',
-        'views/forgotpassword', 'views/profile', 'views/contacts',
+        'views/forgotpassword', 'views/profile', 'views/canvas' , 'views/contacts',
         'views/addcontact', 'models/Account', 'models/StatusCollection',
         'models/ContactCollection'],
-function(IndexView, RegisterView, LoginView, ForgotPasswordView, ProfileView,
+function(IndexView, RegisterView, LoginView, ForgotPasswordView, ProfileView, CanvasView,
          ContactsView, AddContactView, Account, StatusCollection,
          ContactCollection) {
   var SocialRouter = Backbone.Router.extend({
@@ -15,6 +15,7 @@ function(IndexView, RegisterView, LoginView, ForgotPasswordView, ProfileView,
       'register': 'register',
       'forgotpassword': 'forgotpassword',
       'profile/:id': 'profile',
+      'canvas/:id': 'canvas',
       'contacts/:id': 'contacts'
     },
 
@@ -54,6 +55,12 @@ function(IndexView, RegisterView, LoginView, ForgotPasswordView, ProfileView,
     profile: function(id) {
       var model = new Account({id:id});
       this.changeView(new ProfileView({model:model}));
+      model.fetch();
+    },
+
+    canvas: function(id) {
+      var model = new Account({id:id});
+      this.changeView(new CanvasView({model:model}));
       model.fetch();
     },
 

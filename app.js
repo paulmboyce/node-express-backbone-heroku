@@ -141,6 +141,28 @@ app.post('/accounts/:id/status', function(req, res) {
   res.send(200);
 });
 
+
+app.post('/accounts/:id/assumption', function(req, res) {
+  var accountId = req.params.id == 'me'
+                     ? req.session.accountId
+                     : req.params.id;
+  models.Account.findById(accountId, function(account) {
+    assumption = {
+      description: req.param('assumption', ''),
+      status:      'new'
+    };
+    account.assumptions.push(assumption);
+
+    account.save(function (err) {
+      if (err) {
+        console.log('Error saving account assumption: ' + err);
+      }
+    });
+  });
+  res.send(200);
+});
+
+
 app.delete('/accounts/:id/contact', function(req,res) {
   var accountId = req.params.id == 'me'
                      ? req.session.accountId

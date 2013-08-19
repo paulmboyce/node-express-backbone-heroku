@@ -9,6 +9,21 @@ module.exports = function(config, mongoose, nodemailer) {
     status:    { type: String }
   });
 
+
+  var Canvas = new mongoose.Schema({
+      assumptions: [Assumption]
+  });
+
+
+  var Assumption = new mongoose.Schema({
+    description:    { type: String },
+    build:          { type: String },
+    measure:        { type: String },
+    learn:          { type: String },
+    status:         { type: String, default: "NEW" }
+  });
+
+
   var Contact = new mongoose.Schema({
     name: {
       first:   { type: String },
@@ -27,15 +42,15 @@ module.exports = function(config, mongoose, nodemailer) {
       last:    { type: String },
       full:    { type: String }
     },
-    birthday: {
-      day:     { type: Number, min: 1, max: 31, required: false },
-      month:   { type: Number, min: 1, max: 12, required: false },
-      year:    { type: Number }
-    },
+    birthday: { day: { type: Number, min: 1, max: 31, required: false
+      }, month: { type: Number, min: 1, max: 12, required: false },
+      year: { type: Number } },
     photoUrl:  { type: String },
     biography: { type: String },
     contacts:  [Contact],
     status:    [Status], // My own status updates only
+
+    assumptions: [Assumption], // Assumptions
     activity:  [Status]  //  All status updates including friends
   });
 
