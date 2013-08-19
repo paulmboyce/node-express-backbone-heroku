@@ -251,5 +251,5 @@ app.post('/resetPassword', function(req, res) {
 
 var port = process.env.PORT || 8080;
 app.listen(port, function() {
-  console.log("Startup Dashboard App: Listening on port " + port);
+  console.log("Startup Dashboard (ch08) App: Listening on port " + port);
 });
