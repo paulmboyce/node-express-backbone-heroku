@@ -6,13 +6,16 @@ require.config({
     models: 'models',
     text: '/js/libs/text',
     templates: '../templates',
+    
+    Bootstrap: '//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min',
 
     SocialNetView: '/js/SocialNetView'
   },
 
   shim: {
     'Backbone': ['Underscore', 'jQuery'],
-    'SocialNet': ['Backbone']
+    'Bootstrap':['jQuery'],
+    'SocialNet': ['Backbone', 'Bootstrap']
   }
 });
 
