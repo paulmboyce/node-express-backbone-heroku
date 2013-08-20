@@ -11,7 +11,7 @@ define(['SocialNetView', 'text!templates/login.html'], function(SocialNetView, l
     login: function() {
       $.post('/login',
         this.$('form').serialize(), function(data) {
-        window.location.hash = 'index';
+        window.location.hash = 'canvas/me';
       }).error(function(){
         $("#error").text('Unable to login.');
         $("#error").slideDown();
