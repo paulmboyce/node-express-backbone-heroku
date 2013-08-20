@@ -127,23 +127,28 @@ module.exports = function(config, mongoose, nodemailer) {
 		name: "new canvas",
 		ownerAccountId: account._id
 	    });
-//            canvas.assumptions.push(assumption);
-//	    canvas.save();
-//	    account.canvases.push(canvas._id);
-
 	}
-//	else {
-            canvas.assumptions.push(assumption);
-	    canvas.save();
-	    account.canvases.push(canvas._id);
-//	}
+        canvas.assumptions.push(assumption);
+	canvas.save();
 	
-	// Finally save the account
-	account.save(function (err) {
-	    if (err) {
-		console.log('Error saving account: ' + err);
+	// Only add if not already added
+	Account.findOne({_id:account._id}, function (err, account) {
+console.log('finding account');
+	    if (account !== null && account.canvases !== null) {
+console.log('found account, canvases not null');
+		if (account.canvases[0] == null) {
+		    account.canvases.push(canvas._id);
+		    // Finally save the account
+		    account.save(function (err) {
+			if (err) {
+			    console.log('Error saving account: ' + err);
+			}
+		    });
+		}
 	    }
 	});
+
+	
     });  
   };
 
