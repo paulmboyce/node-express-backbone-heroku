@@ -143,6 +143,8 @@ app.post('/accounts/:id/status', function(req, res) {
 
 
 app.post('/accounts/:id/assumption', function(req, res) {
+
+  console.log('ENTERED: app.post :id/assumption');
   var accountId = req.params.id == 'me'
                      ? req.session.accountId
                      : req.params.id;
@@ -152,13 +154,16 @@ app.post('/accounts/:id/assumption', function(req, res) {
       status:      'new'
     };
     account.assumptions.push(assumption);
-
     account.save(function (err) {
       if (err) {
         console.log('Error saving account assumption: ' + err);
       }
     });
-  });
+      
+    //Create/add the canvas:
+    models.Account.addCanvas(account, assumption);
+
+  });// end callback
   res.send(200);
 });
 

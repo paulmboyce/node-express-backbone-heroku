@@ -10,17 +10,18 @@ module.exports = function(config, mongoose, nodemailer) {
   });
 
 
-  var Canvas = new mongoose.Schema({
-      assumptions: [Assumption]
-  });
-
-
   var Assumption = new mongoose.Schema({
     description:    { type: String },
     build:          { type: String },
     measure:        { type: String },
     learn:          { type: String },
     status:         { type: String, default: "NEW" }
+  });
+
+  var CanvasSchema = new mongoose.Schema({
+      name:           { type: String, default: 'canvasname'},
+      ownerAccountId: { type: mongoose.Schema.ObjectId },
+      assumptions:    [Assumption]
   });
 
 
@@ -49,11 +50,12 @@ module.exports = function(config, mongoose, nodemailer) {
     biography: { type: String },
     contacts:  [Contact],
     status:    [Status], // My own status updates only
-
+    canvases : [{ type: mongoose.Schema.ObjectId, ref: 'Canvas' }], // Canvas References, so users can share.
     assumptions: [Assumption], // Assumptions
     activity:  [Status]  //  All status updates including friends
   });
 
+  var Canvas  = mongoose.model('Canvas', CanvasSchema);
   var Account = mongoose.model('Account', AccountSchema);
 
 
@@ -114,6 +116,37 @@ module.exports = function(config, mongoose, nodemailer) {
       callback(doc);
     });
   };
+
+  var addCanvas = function(account, assumption) {
+    console.log('ENTERED addCanvas with assumption' + assumption);    
+    Canvas.findOne({ownerAccountId:account._id}, function(err, canvas) {
+    
+	if (canvas == null) {
+	    console.log('No canvas found for owner' + err);
+	    canvas = new Canvas ({
+		name: "new canvas",
+		ownerAccountId: account._id
+	    });
+//            canvas.assumptions.push(assumption);
+//	    canvas.save();
+//	    account.canvases.push(canvas._id);
+
+	}
+//	else {
+            canvas.assumptions.push(assumption);
+	    canvas.save();
+	    account.canvases.push(canvas._id);
+//	}
+	
+	// Finally save the account
+	account.save(function (err) {
+	    if (err) {
+		console.log('Error saving account: ' + err);
+	    }
+	});
+    });  
+  };
+
 
   var addContact = function(account, addcontact) {
     contact = {
@@ -202,6 +235,7 @@ module.exports = function(config, mongoose, nodemailer) {
     changePassword: changePassword,
     findByString: findByString,
     addContact: addContact,
+    addCanvas: addCanvas,
     removeContact: removeContact,
     login: login,
     Account: Account
