@@ -50,7 +50,7 @@ app.post('/login', function(req, res) {
       res.send(401);
       return;
     }
-    console.log('login was successful');
+    console.log('login was successful for email: ' + email);
     req.session.loggedIn = true;
     req.session.accountId = account._id;
     res.send(200);
@@ -119,6 +119,7 @@ app.get('/accounts/:id/status', function(req, res) {
   });
 });
 
+
 app.post('/accounts/:id/status', function(req, res) {
   var accountId = req.params.id == 'me'
                      ? req.session.accountId
@@ -139,6 +140,17 @@ app.post('/accounts/:id/status', function(req, res) {
     });
   });
   res.send(200);
+});
+
+
+app.get('/accounts/:id/assumption', function(req, res) {
+  console.log('ENTERED: app.post :id/assumption');
+  var accountId = req.params.id == 'me'
+                     ? req.session.accountId
+                     : req.params.id;
+  models.Account.findById(accountId, function(account) {
+    res.send(account.canvases[0].assumptions);
+  });
 });
 
 
