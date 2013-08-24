@@ -1,12 +1,27 @@
 <h1><%=name.first %> <%= name.last %></h1>
 
-<form>
-  <fieldset>
-    <legend>Add Assumption</legend>
+<form role="form">
 
-    <input type="text" name="assumption" />
-    <input type="submit" value="Add" />
-  </fieldset>
+    <legend>Add Assumption:</legend>
+
+    <div class="form-group">
+      <label for="assumption">Idea:</label>    
+      <input type="text" name="assumption" class="form-control" placeholder="Enter an idea to test..."/>
+    </div>
+    <div class="form-group">
+      <label for="build">Build:</label>
+      <input type="text" name="build" class="form-control" placeholder="What will you build?"/>
+    </div>
+    <div class="form-group">
+      <label for="measure">Measure:</label>
+      <input type="text" name="measure" class="form-control" placeholder="What will you measure?"/>
+    </div>
+    <div class="form-group">
+      <label for="learn2">Learn:</label>
+      <input type="text" name="learn2" class="form-control" placeholder="What will you learn?"/>
+    </div>
+    <input type="submit" class="btn btn-default" value="Add" />
+
 </form>
 
 <h2>Canvas</h2>
