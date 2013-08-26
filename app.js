@@ -15,8 +15,16 @@ var models = {
   Account: require('./models/Account')(config, mongoose, nodemailer)
 };
 
-app.configure(function(){
+
+
+  app.configure(function(){
+
+      app.set('views', __dirname + '/views');
+      app.engine('ejs',require('ejs-locals'));
+//      app.locals._layoutFile = '/layout.ejs';
+
   app.set('view engine', 'ejs');
+
   app.use(express.static(__dirname + '/public'));
   app.use(express.limit('1mb'));
   app.use(express.bodyParser());
