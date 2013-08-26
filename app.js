@@ -16,7 +16,7 @@ var models = {
 };
 
 app.configure(function(){
-  app.set('view engine', 'jade');
+  app.set('view engine', 'ejs');
   app.use(express.static(__dirname + '/public'));
   app.use(express.limit('1mb'));
   app.use(express.bodyParser());
@@ -31,7 +31,7 @@ app.configure(function(){
 });
 
 app.get('/', function(req, res){
-  res.render('index.jade');
+  res.render('index.ejs');
 });
 
 app.post('/login', function(req, res) {
@@ -286,7 +286,7 @@ app.post('/contacts/find', function(req, res) {
 
 app.get('/resetPassword', function(req, res) {
   var accountId = req.param('account', null);
-  res.render('resetPassword.jade', {locals:{accountId:accountId}});
+  res.render('resetPassword.ejs', {locals:{accountId:accountId}});
 });
 
 app.post('/resetPassword', function(req, res) {
@@ -295,7 +295,7 @@ app.post('/resetPassword', function(req, res) {
   if ( null != accountId && null != password ) {
     models.Account.changePassword(accountId, password);
   }
-  res.render('resetPasswordSuccess.jade');
+  res.render('resetPasswordSuccess.ejs');
 });
 
 
